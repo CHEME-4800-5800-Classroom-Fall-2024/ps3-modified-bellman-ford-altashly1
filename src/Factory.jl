@@ -1,3 +1,5 @@
+# --- PRIVATE METHODS BELOW HERE ----------------------------------------------------------------------------------- #
+
 function _build(edgemodel::Type{MyGraphEdgeModel}, parts::Array{String,1}, id::Int64)::MyGraphEdgeModel
     
     # initialize -
@@ -15,7 +17,9 @@ function _build(edgemodel::Type{MyGraphEdgeModel}, parts::Array{String,1}, id::I
     return model
 end
 
-# --- PUBLIC METHODS BELOW HERE ----------------------------------------------------------------------------------- #
+# --- PRIVATE METHODS ABOVE HERE ----------------------------------------------------------------------------------- #
+
+# --- PUBLIC METHODS BELOW HERE ------------------------------------------------------------------------------------ #
 """
     build(model::Type{T}, parts::Array{String,1}, id::Int64) where T <: MyGraphEdgeModel
 """

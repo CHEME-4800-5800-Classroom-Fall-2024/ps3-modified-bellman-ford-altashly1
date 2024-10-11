@@ -45,7 +45,6 @@ function readedgesfile(filepath::String; comment::Char='#',
     return edges;
 end
 
-
 """
     function readnodecapacityfile(filepath::String; comment::Char='#', delim::Char=',') -> Dict{Int64, Tuple{Int64, Int64}}
 

@@ -178,7 +178,7 @@ end
 
 # ------ PRIVATE METHODS ABOVE HERE -------------------------------------------------------------------------------- #
 
-# ------ PUBLIC METHODS BELOW HERE -------------------------------------------------------------------------------- #
+# ------ PUBLIC METHODS BELOW HERE --------------------------------------------------------------------------------- #
 """
     computeshortestpaths(graph::T, start::MyGraphNodeModel, 
         algorithm::MyAbstractGraphSearchAlgorithm) where T <: MyAbstractGraphModel

@@ -45,7 +45,6 @@ function readedgesfile(filepath::String; comment::Char='#',
     return edges;
 end
 
-
 """
     function readnodecapacityfile(filepath::String; comment::Char='#', delim::Char=',') -> Dict{Int64, Tuple{Int64, Int64}}
 
@@ -62,12 +61,31 @@ The function reads a file containing node capacity information and returns a dic
 function readnodecapacityfile(filepath::String; comment::Char='#', 
     delim::Char=',')::Dict{Int64, Tuple{Int64, Int64}}
 
-    # initialize
-    capacities = Dict{Int64,Tuple{Int64,Int64}}()
-    
-    # TODO: implement this function
-    throw("The readnodecapacityfile function is not implemented yet.");
+    # initialize the dictionary
+    capacities = Dict{Int64, Tuple{Int64, Int64}}()
 
-    # return -
-    return capacities;
+    # main block - open the file and process it line by line
+    open(filepath, "r") do file
+        for line in eachline(file)
+            
+            # skip comments and empty lines
+            if contains(line, comment) || isempty(line)
+                continue
+            end
+            
+            # split the line into parts based on the delimiter
+            parts = split(line, delim)
+
+            # parse the node ID and its capacities (max in-degree and max out-degree)
+            node_id = parse(Int64, parts[1])  # node ID
+            max_in_degree = parse(Int64, parts[2])  # max in-degree
+            max_out_degree = parse(Int64, parts[3])  # max out-degree
+
+            # add to the capacities dictionary
+            capacities[node_id] = (max_in_degree, max_out_degree)
+        end
+    end
+
+    # return the capacities dictionary
+    return capacities
 end

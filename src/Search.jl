@@ -1,3 +1,4 @@
+# ------ PRIVATE METHODS BELOW HERE -------------------------------------------------------------------------------- #
 
 """
     function _search(graph::T, start::MyGraphNodeModel, algorithm::DikjstraAlgorithm) where T <: MyAbstractGraphModel
@@ -132,16 +133,52 @@ function _search(graph::T, start::MyGraphNodeModel, algorithm::ModifiedBellmanFo
     previous = Dict{Int64, Union{Nothing,Int64}}();
     nodes = graph.nodes;
     number_of_nodes = length(nodes);
-    
-    # TODO: implement this function
-    throw("ModifiedBellmanFordAlgorithm not implemented");
+
+    # initialize distance and previous dictionaries -
+    for (_, node) ∈ nodes
+        distances[node.id] = Inf;
+        previous[node.id] = nothing;
+    end
+    distances[start.id] = 0.0;
+
+    # main loop -
+    counter = 1;
+    while counter < (number_of_nodes - 1)
+        
+        for (k, _) ∈ graph.edges
+
+            u = k[1];
+            v = k[2];
+
+            alt = distances[u] + weight(graph, u, v);
+            if alt < distances[v]
+                distances[v] = alt;
+                previous[v] = u;
+            end
+        end
+
+        # increment counter -
+        counter += 1;
+    end
+
+    # check: If we have negative cycles, then we should throw an error. 
+    for (k, _) ∈ graph.edges
+
+        u = k[1];
+        v = k[2];
+
+        if distances[u] + weight(graph, u, v) < distances[v]
+            throw(ArgumentError("The graph contains a negative cycle"));
+        end
+    end
 
     # return -
     return distances, previous;
 end
 
+# ------ PRIVATE METHODS ABOVE HERE -------------------------------------------------------------------------------- #
 
-# ------ PUBLIC METHODS BELOW HERE -------------------------------------------------------------------------------- #
+# ------ PUBLIC METHODS BELOW HERE --------------------------------------------------------------------------------- #
 """
     computeshortestpaths(graph::T, start::MyGraphNodeModel, 
         algorithm::MyAbstractGraphSearchAlgorithm) where T <: MyAbstractGraphModel
@@ -160,4 +197,4 @@ function computeshortestpaths(graph::T, start::MyGraphNodeModel,
     algorithm::MyAbstractGraphSearchAlgorithm) where T <: MyAbstractGraphModel
     return _search(graph, start, algorithm);
 end
-# ------ PUBLIC ABOVE BELOW HERE ---------------------------------------------------------------------------------- #
+# ------ PUBLIC METHOD ABOVE HERE ---------------------------------------------------------------------------------- #
